@@ -1,0 +1,19 @@
+# Windows
+Thumbs.db
+desktop.ini
+
+# Arduino temporary files
+*.bak
+*.tmp
+*.log
+
+# Arduino build folders
+build/
+.cache/
+
+# PlatformIO
+.pio/
+
+# Python cache, if Python is added later
+__pycache__/
+*.pyc
