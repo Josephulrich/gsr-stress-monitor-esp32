@@ -52,7 +52,7 @@ La réponse galvanique de la peau évolue notamment avec la transpiration et les
 
 ### Capteur et électrodes
 
-![Module GSR et électrodes](assets/images/gsr_finger_electrodes_module.jpeg)
+![Module GSR et électrodes](assets/images/gsr_finger_electrodes_modules.jpeg)
 
 ![Gros plan du module GSR](assets/images/gsr_sensor_module_closeup.jpg)
 
