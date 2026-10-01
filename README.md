@@ -74,57 +74,57 @@ Le câblage réel a été vérifié pendant les essais sur prototype :
 
 ## Traitement du signal
 
-Le signal GSR brut est sensible au bruit et aux variations rapides. Deux filtres sont appliqués successivement afin d’obtenir une mesure plus stable.
+Le signal GSR brut est sensible au bruit, aux variations de contact des électrodes et aux fluctuations rapides. Le prototype applique deux filtres numériques successifs, puis normalise la valeur obtenue afin de l’afficher sous une forme exploitable.
 
 ### 1. Moyenne glissante FIR
 
 Une fenêtre de 20 échantillons est utilisée :
 
-\[
-\bar{x}[n] = \frac{1}{20}\sum_{k=0}^{19}x[n-k]
-\]
+$$
+\bar{x}[n] = \frac{1}{20} \sum_{k=0}^{19} x[n-k]
+$$
 
-Cette moyenne réduit les fluctuations rapides de la mesure brute.
+Cette moyenne réduit les fluctuations rapides présentes dans la mesure brute.
 
 ### 2. Filtre exponentiel IIR
 
-La moyenne est ensuite filtrée par un filtre passe-bas :
+La moyenne glissante est ensuite filtrée par un filtre passe-bas exponentiel :
 
-\[
-y[n] = \alpha \cdot \bar{x}[n] + (1-\alpha)\cdot y[n-1]
-\]
+$$
+y[n] = \alpha \cdot \bar{x}[n] + (1 - \alpha) \cdot y[n-1]
+$$
 
 avec :
 
-\[
+$$
 \alpha = 0.1
-\]
+$$
 
-Une valeur faible de \(\alpha\) stabilise davantage le signal, au prix d’une réponse plus lente aux changements brusques.
+Une valeur faible de \(\alpha\) stabilise davantage le signal, mais entraîne une réponse plus lente lorsque la mesure évolue rapidement.
 
 ### 3. Normalisation
 
-Le signal filtré est ramené dans l’intervalle \([0,1]\) à partir de valeurs de calibration :
+Le signal filtré est ramené dans l’intervalle \([0, 1]\) à partir de valeurs de calibration :
 
-\[
-x_{norm} =
-\frac{x_{filtré} - x_{min}}
-{x_{max} - x_{min}}
-\]
+$$
+x_{\mathrm{norm}} =
+\frac{x_{\mathrm{filtré}} - x_{\min}}
+{x_{\max} - x_{\min}}
+$$
 
-La valeur est ensuite limitée entre 0 et 1. Les bornes de calibration doivent être adaptées au capteur, au montage et aux conditions de mesure.
+La valeur normalisée est ensuite limitée entre 0 et 1. Les bornes \(x_{\min}\) et \(x_{\max}\) doivent être déterminées expérimentalement pour le capteur, le montage et les conditions de mesure utilisées.
 
 ### 4. États expérimentaux
 
-Les seuils utilisés dans le prototype servent uniquement à visualiser l’évolution du signal :
+Les seuils suivants servent uniquement à visualiser l’évolution du signal GSR après calibration :
 
 | Valeur normalisée | État affiché |
-|---:|---|
-| \(\leq 0.30\) | Repos |
-| \(0.30 < x \leq 0.65\) | Alerte légère / éveil |
-| \(> 0.65\) | Activation élevée |
+|---|---|
+| `x_norm <= 0.30` | Repos |
+| `0.30 < x_norm <= 0.65` | Alerte légère / éveil |
+| `x_norm > 0.65` | Activation élevée |
 
-Ces étiquettes sont des indicateurs techniques liés à un signal GSR calibré. Elles ne représentent pas un diagnostic psychologique, émotionnel ou médical.
+> Les états affichés sont des indicateurs expérimentaux liés au signal GSR calibré. Ils ne constituent pas une mesure directe du stress et ne doivent pas être interprétés comme un diagnostic médical ou psychologique.
 
 ---
 
